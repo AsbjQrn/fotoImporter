@@ -1,54 +1,57 @@
 package dk.asbjoern.foto.fotoimporter;
 
-import dk.asbjoern.foto.fotoimporter.beans.Mediafile;
+import dk.asbjoern.foto.fotoimporter.beans.FileWrapper;
+import dk.asbjoern.foto.fotoimporter.configuration.YMLConfiguration;
+import dk.asbjoern.foto.fotoimporter.exifutils.ExifService;
+import dk.asbjoern.foto.fotoimporter.fileutils.Directorymaker;
+import dk.asbjoern.foto.fotoimporter.fileutils.FileWriter;
 import dk.asbjoern.foto.fotoimporter.helpers.Loggable;
-import dk.asbjoern.foto.fotoimporter.mapping.FileMapper;
+import dk.asbjoern.foto.fotoimporter.fileutils.FindFilesToMerge;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class Runner implements Loggable {
 
-    private final FileMapper fileMapper;
+    private final FindFilesToMerge fileMapper;
+    private final FileWriter fileWriter;
+    private final ExifService exifService;
+    private final Directorymaker directorymaker;
+    private final YMLConfiguration ymlConfiguration;
 
-    public Runner(FileMapper fileMapper) {
+
+    public Runner(FindFilesToMerge fileMapper, FileWriter fileWriter, ExifService exifService, Directorymaker directorymaker, YMLConfiguration ymlConfiguration) {
         this.fileMapper = fileMapper;
-    }
-
-    public void run() throws IOException {
-
-        Path receivingLibrary = Paths.get("/media/asbjoern/a78b1484-dfe0-47b8-9e7e-0214b1caad70/fotoOrganiserOutput/");
-        Path possibleImports = Paths.get("files");
-
-        long startMakeMapOfAll = System.currentTimeMillis();
-        Map<Integer, List<Mediafile>> mapOfReceivingLibrary = fileMapper.makeMapOfAll(receivingLibrary);
-        long slutMakeMapOfAll = System.currentTimeMillis();
-
-        long startMakeMapOfOnlyUnique = System.currentTimeMillis();
-        Map<String, Mediafile> uniquePossibleImports = fileMapper.makeMapOfOnlyUnique(fileMapper.makeMapOfAll(possibleImports));
-        long slutMakeMapOfOnlyUnique = System.currentTimeMillis();
-
-        long startmakeListOfFilesToImport = System.currentTimeMillis();
-        List<Mediafile> finalImports = fileMapper.makeListOfFilesToImport(uniquePossibleImports, mapOfReceivingLibrary);
-        long slutmakeListOfFilesToImport = System.currentTimeMillis();
-
-
-
-        logger().info(String.format("Size of receivingLibrary: %s", mapOfReceivingLibrary.size() ));
-        logger().info(String.format("Size of possibleImports: %s", uniquePossibleImports.size() ));
-        logger().info(String.format("Size of finalImports: %s", finalImports.size() ));
-        logger().info(String.format("Time spent makeMapOfAll : %s", slutMakeMapOfAll - startMakeMapOfAll ));
-        logger().info(String.format("Time spent MakeMapOfOnlyUnique : %s", slutMakeMapOfOnlyUnique - startMakeMapOfOnlyUnique ));
-        logger().info(String.format("Time spent makeListOfFilesToImport : %s", slutmakeListOfFilesToImport - startmakeListOfFilesToImport ));
-
-
-
+        this.fileWriter = fileWriter;
+        this.exifService = exifService;
+        this.directorymaker = directorymaker;
+        this.ymlConfiguration = ymlConfiguration;
     }
 
 
+    public void run() throws Exception {
+
+        List<FileWrapper> filesToMerge = fileMapper.makeListOfImports(ymlConfiguration.getSourcePath(), ymlConfiguration.getDestinationsPath());
+
+        for (FileWrapper fileWrapper : filesToMerge) {
+
+            Optional<LocalDate> dateRecorded = exifService.readExifDate(exifService.readExif(fileWrapper.getFile()));
+            Path newPath;
+            if (dateRecorded.isPresent()) {
+                newPath = directorymaker.makeDirectory(dateRecorded.get());
+            } else {
+                newPath = directorymaker.makeDirectory(fileWrapper.getPath().getParent());
+            }
+
+            fileWriter.writeFile(fileWrapper.getPath(), newPath);
+
+        }
+        ;
+
+
+    }
 }

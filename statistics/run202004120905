@@ -1,0 +1,19 @@
+
+2020-04-12 08:45:41.284  INFO 4432 --- [           main] d.a.foto.fotoimporter.Application        : Starting Application on asbjoern-ThinkPad-P50 with PID 4432 (/home/asbjoern/develop/fotoImporter/target/classes started by asbjoern in /home/asbjoern/develop/fotoImporter)
+2020-04-12 08:45:41.286  INFO 4432 --- [           main] d.a.foto.fotoimporter.Application        : No active profile set, falling back to default profiles: default
+2020-04-12 08:45:41.644  INFO 4432 --- [           main] d.a.foto.fotoimporter.Application        : Started Application in 0.571 seconds (JVM running for 0.99)
+2020-04-12 08:45:41.645  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Building mapOfLists_ReceivingLibrary
+2020-04-12 08:45:50.408  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Building mapOfLists_PossibleImports
+2020-04-12 08:45:52.274  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Cleaning cleanMapWithListsOfDuplicates  (imports)
+2020-04-12 08:50:28.811  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Building list of final imports
+2020-04-12 09:06:35.573  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Size of receivingLibrary: 93822
+2020-04-12 09:06:35.573  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Size of mapOfPossibleImports: 9285
+2020-04-12 09:06:35.573  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Size of listOfPossibleImports: 9300
+2020-04-12 09:06:35.574  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Size of listOfFilesToImport: 1106
+2020-04-12 09:06:35.574  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Time spent makeMapOfAll : 8763
+2020-04-12 09:06:35.574  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Time spent mapOfAllPossibleImports : 1865
+2020-04-12 09:06:35.574  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Time spent cleanMapWithListsOfDuplicates : 276537
+2020-04-12 09:06:35.574  INFO 4432 --- [           main] dk.asbjoern.foto.fotoimporter.Runner     : Time spent findFilesToImport : 966762
+
+
+checksum256

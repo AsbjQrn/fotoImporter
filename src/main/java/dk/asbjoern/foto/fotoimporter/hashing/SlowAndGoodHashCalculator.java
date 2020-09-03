@@ -9,11 +9,15 @@ import java.security.NoSuchAlgorithmException;
 @Component
 public class SlowAndGoodHashCalculator {
 
+    private static final String MD5_CHECKSUM = "MD5";
+    private static final String SHA_256_CHECKSUM = "SHA-256";
     private static MessageDigest digest;
+    private static Long number_of_checksum_calculations = 0L;
+
 
     static {
         try {
-            digest = MessageDigest.getInstance("SHA-256");
+            digest = MessageDigest.getInstance(MD5_CHECKSUM);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -37,6 +41,7 @@ public class SlowAndGoodHashCalculator {
             System.exit(1);
 
         }
+        number_of_checksum_calculations++;
         return bytesToHex(hash);
     }
 
@@ -48,5 +53,9 @@ public class SlowAndGoodHashCalculator {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    public static Long getChecksum_calculations() {
+        return number_of_checksum_calculations;
     }
 }

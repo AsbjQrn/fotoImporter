@@ -1,4 +1,4 @@
-import dk.asbjoern.foto.fotoimporter.beans.Mediafile
+import dk.asbjoern.foto.fotoimporter.beans.FileWrapper
 import dk.asbjoern.foto.fotoimporter.commandexecution.CommandExecuter
 import dk.asbjoern.foto.fotoimporter.hashing.SlowAndGoodHashCalculator
 import dk.asbjoern.foto.fotoimporter.commandexecution.LinuxCommandExecuter
@@ -133,7 +133,7 @@ class TestChecksumHastighedSpec extends Specification {
         when:
         Long startSpeed = System.currentTimeMillis()
 
-        Map<Integer, List<Mediafile>> mediefiler = new HashMap<>()
+        Map<Integer, List<FileWrapper>> mediefiler = new HashMap<>()
 
         int count = 0 //95348
         Files.walk(Paths.get('/media/asbjoern/a78b1484-dfe0-47b8-9e7e-0214b1caad70/fotoOrganiserOutput/'))
@@ -141,8 +141,8 @@ class TestChecksumHastighedSpec extends Specification {
 
                     File file = path.toFile();
                     if (file.isFile()) {
-                        Mediafile mediafile = new Mediafile(file)
-                        List<Mediafile> ensfiler = mediefiler.get(mediafile.getFirstBytesChecksum())
+                        FileWrapper mediafile = new FileWrapper(file)
+                        List<FileWrapper> ensfiler = mediefiler.get(mediafile.getFirstBytesChecksum())
                         if (ensfiler == null) {
                             ensfiler = new ArrayList<>()
                             mediefiler.put(mediafile.getFirstBytesChecksum(), ensfiler)
@@ -159,7 +159,7 @@ class TestChecksumHastighedSpec extends Specification {
         println String.format('Tidsforbrug i sekunder: %f', (slutSpeed - startSpeed) / 1000)
         println mediefiler.size()
         Long imagesAllInAll = 0
-        for (Collection<List<Mediafile>> list : mediefiler.values()){
+        for (Collection<List<FileWrapper>> list : mediefiler.values()){
             imagesAllInAll = imagesAllInAll + list.size()
         }
         println String.format('filer ialt: %s', imagesAllInAll )
