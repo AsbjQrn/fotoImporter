@@ -1,5 +1,4 @@
-#sourceLib: /media/asbjoern/NIKON D750/DCIM
-sourceLib: /media/asbjoern/SEAGATE 1TB/Fra t60/Shotcut/Div filer
-#destinationLib: /media/asbjoern/a78b1484-dfe0-47b8-9e7e-0214b1caad70/fotoOrganiserOutput
-destinationLib: /media/asbjoern/Seagate Expansion Drive
+sourceLib: /media/asbjoern/NIKON D750
+#destinationLib: /media/asbjoern/TO_GB-SIK_KOPI
+destinationLib: /media/asbjoern/a78b1484-dfe0-47b8-9e7e-0214b1caad70/fotoOrganiserOutput
 noExifFolderName: noExif

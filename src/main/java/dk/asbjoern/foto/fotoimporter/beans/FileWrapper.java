@@ -5,9 +5,11 @@ import dk.asbjoern.foto.fotoimporter.hashing.SlowAndGoodHashCalculator;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.function.Predicate;
 
 public class FileWrapper {
 
+//    private final Predicate
     private final Path path;
 
     private final Integer firstBytesChecksum;
